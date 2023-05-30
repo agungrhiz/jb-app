@@ -8,7 +8,12 @@ export class UserService extends CrudHelper<User> {
     }
 
     public async findByEmail(email: string): Promise<User | undefined> {
-        return await this.repository.findOneByOrFail({ email: email });
+        const user = await this.repository.findOneBy({ email: email });
+        if (!user) {
+            return undefined;
+        }
+
+        return user;
     }
 
     public async findByVerificationToken(token: string): Promise<User | undefined> {

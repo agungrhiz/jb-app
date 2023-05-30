@@ -18,6 +18,15 @@ export class UserRequestService extends CrudHelper<UserRequest> {
         this.emailService = new EmailService();
     }
 
+    public async findByEmail(email: string): Promise<UserRequest | undefined> {
+        const userRequest = await this.repository.findOneBy({ email: email });
+        if (!userRequest) {
+            return undefined;
+        }
+
+        return userRequest;
+    }
+
     public async updateStatus(id: number, status: RequestStatus, approvedBy: number): Promise<UserRequest | undefined> {
         const userRequestToUpdate = await this.repository.findOneBy({ id: id });
         if (!userRequestToUpdate) {

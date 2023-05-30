@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from 'express';
+import cors from 'cors';
 import { ConnectDB } from '@/config/database';
 import { userRequestRouter } from '@/routes/userRequest.route';
 import * as dotenv from 'dotenv';
@@ -24,6 +25,7 @@ db.initialize()
     });
 
 // Middleware
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 

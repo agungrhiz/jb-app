@@ -2,14 +2,23 @@ import { UserService } from './user.service';
 import User from '@/models/user';
 import jwt, { Secret } from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { RegisterDto } from '@/models/dto/registerDto';
+import UserRequest from '@/models/useRequest';
+import { ConnectDB } from '@/config/database';
 
 dotenv.config();
 
 export class AuthService {
     private userService: UserService;
+    private userRequestRepository = ConnectDB.getRepository(UserRequest);
 
     constructor() {
         this.userService = new UserService();
+    }
+
+    public async register(register: RegisterDto): Promise<UserRequest > {
+        const userRequest = await this.userRequestRepository.save(register);
+        return userRequest;
     }
 
     public async generateToken(user: User): Promise<string> {
