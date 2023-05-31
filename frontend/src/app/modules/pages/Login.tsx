@@ -15,10 +15,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@app/core/redux/store";
 import { useEffect } from "react";
 import { InformationCircleIcon } from "@heroicons/react/24/outline";
+import { clearErrors } from "@app/core/redux/slices/authSlice";
 
 const Login = () => {
   const dispatch: AppDispatch = useDispatch();
-  const loginError = useSelector((state: RootState) => state.auth.error);
+  const loginError = useSelector((state: RootState) => state.auth.errorLogin);
 
   const loginSchema = Yup.object().shape({
     email: Yup.string()
@@ -52,6 +53,10 @@ const Login = () => {
       });
     }
   }, []);
+
+  const handleClearState = () => {
+    dispatch(clearErrors());
+  };
 
   return (
     <div>
@@ -158,7 +163,7 @@ const Login = () => {
                   </Button>
                   <Typography variant="small" className="flex justify-center">
                     Tidak memiliki akun?
-                    <Link to="/register">
+                    <Link to="/register" onClick={handleClearState}>
                       <Typography
                         as="span"
                         variant="small"
